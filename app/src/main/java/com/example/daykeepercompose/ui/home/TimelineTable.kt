@@ -104,7 +104,7 @@ fun TimelineTable(
                     .fillMaxWidth()
                     .height(heightDp)
                     .clip(RoundedCornerShape(8.dp))
-                    .background(task.color)
+                    .background(Color.Blue)
                     .clickable { onTaskClick(task) }
             ) {
                 if (heightDp >= minHeightToShowText) {

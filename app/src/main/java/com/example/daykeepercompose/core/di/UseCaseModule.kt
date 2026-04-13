@@ -1,5 +1,6 @@
 package com.example.daykeepercompose.core.di
 
+import com.example.daykeepercompose.data.usecase.DeleteTaskUseCaseImpl
 import com.example.daykeepercompose.data.usecase.GetDayDataUseCaseImpl
 import com.example.daykeepercompose.data.usecase.ObserveSelectedDateUseCaseImpl
 import com.example.daykeepercompose.data.usecase.SaveTaskUseCaseImpl
@@ -7,6 +8,7 @@ import com.example.daykeepercompose.data.usecase.SetSelectedDateUseCaseImpl
 import com.example.daykeepercompose.domain.usecase.GetDayDataUseCase
 import com.example.daykeepercompose.domain.repository.SelectedDateHolder
 import com.example.daykeepercompose.domain.repository.TaskRepository
+import com.example.daykeepercompose.domain.usecase.DeleteTaskUseCase
 import com.example.daykeepercompose.domain.usecase.ObserveSelectedDateUseCase
 import com.example.daykeepercompose.domain.usecase.SaveTaskUseCase
 import com.example.daykeepercompose.domain.usecase.SetSelectedDateUseCase
@@ -36,5 +38,10 @@ object UseCaseModule {
     @Provides
     fun provideSaveTaskUseCase(taskRepository: TaskRepository): SaveTaskUseCase {
         return SaveTaskUseCaseImpl(taskRepository)
+    }
+
+    @Provides
+    fun provideDeleteTaskUseCase(taskRepository: TaskRepository): DeleteTaskUseCase {
+        return DeleteTaskUseCaseImpl(taskRepository)
     }
 }

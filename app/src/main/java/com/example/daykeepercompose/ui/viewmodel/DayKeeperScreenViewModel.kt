@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.daykeepercompose.domain.model.Task
 import com.example.daykeepercompose.domain.model.toUi
+import com.example.daykeepercompose.domain.usecase.DeleteTaskUseCase
 import com.example.daykeepercompose.domain.usecase.GetDayDataUseCase
 import com.example.daykeepercompose.domain.usecase.ObserveSelectedDateUseCase
 import com.example.daykeepercompose.domain.usecase.SaveTaskUseCase
@@ -33,6 +34,7 @@ class DayKeeperScreenViewModel @Inject constructor(
     private val getDayDataUseCase: GetDayDataUseCase,
     private val setSelectedDateUseCase: SetSelectedDateUseCase,
     private val saveTaskUseCase: SaveTaskUseCase,
+    private val deleteTaskUseCase: DeleteTaskUseCase,
     private val zoneId: ZoneId
 ) : ViewModel() {
 
@@ -94,11 +96,17 @@ class DayKeeperScreenViewModel @Inject constructor(
             dateStart = startMillis,
             dateFinish = endMillis,
             name = name,
-            description = description
+            description = description,
         )
 
         viewModelScope.launch {
             saveTaskUseCase(date = date, task = task)
+        }
+    }
+
+    fun deleteTask(taskId: Int) {
+        viewModelScope.launch {
+            deleteTaskUseCase(taskId)
         }
     }
 }

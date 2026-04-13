@@ -11,9 +11,6 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface TaskDao {
 
-//    @Query("SELECT * FROM tasks WHERE id = :id")
-//    suspend fun getTaskById(id: Int): TaskEntity?
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTask(task: TaskEntity)
 
@@ -22,6 +19,9 @@ interface TaskDao {
 
     @Delete
     suspend fun deleteTask(task: TaskEntity)
+
+    @Query("DELETE FROM tasks WHERE id = :id")
+    suspend fun deleteTaskById(id: Int)
 
     @Query("SELECT * FROM tasks WHERE date = :date")
     fun observeTasksForDate(date: String): Flow<List<TaskEntity>>

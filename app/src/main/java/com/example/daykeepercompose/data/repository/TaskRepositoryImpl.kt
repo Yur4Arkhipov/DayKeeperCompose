@@ -43,14 +43,15 @@ class TaskRepositoryImpl @Inject constructor(
         )
     }
 
+    override suspend fun deleteTask(taskId: Int) {
+        taskDao.deleteTaskById(taskId)
+    }
+
 //    override suspend fun getTaskById(id: Int): Task? =
 //        taskDao.getTaskById(id)?.toDomain()
 //
 
 //    override suspend fun updateTask(task: Task) =
 //        taskDao.updateTask(task.toEntity())
-//
-//    override suspend fun deleteTask(task: Task) =
-//        taskDao.deleteTask(task.toEntity())
 }
 

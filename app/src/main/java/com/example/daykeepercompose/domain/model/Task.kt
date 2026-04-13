@@ -1,6 +1,5 @@
 package com.example.daykeepercompose.domain.model
 
-import androidx.compose.ui.graphics.Color
 import com.example.daykeepercompose.ui.model.TaskUi
 import java.time.Duration
 import java.time.Instant
@@ -28,6 +27,6 @@ fun Task.toUi(zoneId: ZoneId): TaskUi {
         startMinute = startMinute,
         durationMinutes = durationMinutes,
         name = name,
-        color = Color.Blue
+        description = description
     )
 }

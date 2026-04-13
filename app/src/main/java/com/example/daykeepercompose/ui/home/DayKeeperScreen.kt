@@ -96,6 +96,7 @@ fun DayKeeperScreen(
             TimelineTable(
                 tasks = state.tasks,
                 onTaskClick = { task ->
+                    onTaskClick(task.id)
                 }
             )
         }

@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.daykeepercompose.ui.detail.TaskDetailScreen
 import com.example.daykeepercompose.ui.home.DayKeeperScreen
 
 @Composable
@@ -18,16 +19,16 @@ fun Navigation() {
 
     Scaffold(
         modifier = Modifier.fillMaxSize()
-    ) { innerPadding ->
+    ) { _ ->
         NavHost(
             navController = navController,
             startDestination = "home",
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.padding()
         ) {
             composable("home") {
                 DayKeeperScreen(
                     onTaskClick = { id ->
-                        navController.navigate("character_detail/$id")
+                        navController.navigate("task_detail/$id")
                     }
                 )
             }
@@ -36,10 +37,10 @@ fun Navigation() {
                 arguments = listOf(navArgument("id") { type = NavType.IntType })
             ) { backStackEntry ->
                 val id = backStackEntry.arguments?.getInt("id") ?: return@composable
-//                TaskDetailScreen(
-//                    taskId = id,
-//                    onBackClick = { navController.popBackStack() }
-//                )
+                TaskDetailScreen(
+                    taskId = id,
+                    onBackClick = { navController.popBackStack() }
+                )
             }
         }
     }
