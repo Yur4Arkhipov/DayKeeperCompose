@@ -76,7 +76,7 @@ fun AddTaskBottomSheet(
             OutlinedTextField(
                 value = taskDescription,
                 onValueChange = { taskDescription = it },
-                label = { Text("Описание (опционально)") },
+                label = { Text("Описание") },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(80.dp),
@@ -185,9 +185,16 @@ fun AddTaskBottomSheet(
                 ) {
                     Text("Отмена")
                 }
+
+                val isFormValid = taskName.isNotEmpty() &&
+                    startHour.isNotEmpty() &&
+                    startMinute.isNotEmpty() &&
+                    endHour.isNotEmpty() &&
+                    endMinute.isNotEmpty()
+
                 Button(
                     onClick = {
-                        if (taskName.isNotEmpty() && startHour.isNotEmpty() && endHour.isNotEmpty()) {
+                        if (isFormValid) {
                             try {
                                 val startH = startHour.toInt()
                                 val startM = startMinute.toIntOrNull() ?: 0
@@ -214,6 +221,7 @@ fun AddTaskBottomSheet(
                             }
                         }
                     },
+                    enabled = isFormValid,
                     modifier = Modifier.weight(1f)
                 ) {
                     Text("Добавить")
