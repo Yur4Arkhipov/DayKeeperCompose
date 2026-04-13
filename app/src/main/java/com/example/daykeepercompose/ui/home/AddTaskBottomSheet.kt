@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,9 +42,9 @@ fun AddTaskBottomSheet(
     var taskName by remember { mutableStateOf("") }
     var taskDescription by remember { mutableStateOf("") }
     var startHour by remember { mutableStateOf("") }
-    var startMinute by remember { mutableStateOf("00") }
+    var startMinute by remember { mutableStateOf("") }
     var endHour by remember { mutableStateOf("") }
-    var endMinute by remember { mutableStateOf("00") }
+    var endMinute by remember { mutableStateOf("") }
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -92,17 +94,37 @@ fun AddTaskBottomSheet(
             ) {
                 OutlinedTextField(
                     value = startHour,
-                    onValueChange = { if (it.length <= 2) startHour = it },
+                    onValueChange = { input ->
+                        if (input.isEmpty()) {
+                            startHour = ""
+                        } else if (input.all { it.isDigit() } && input.length <= 2) {
+                            val hour = input.toIntOrNull() ?: 0
+                            if (hour <= 23) {
+                                startHour = input
+                            }
+                        }
+                    },
                     label = { Text("Час") },
                     modifier = Modifier.weight(1f),
-                    singleLine = true
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                 )
                 OutlinedTextField(
                     value = startMinute,
-                    onValueChange = { if (it.length <= 2) startMinute = it },
+                    onValueChange = { input ->
+                        if (input.isEmpty()) {
+                            startMinute = ""
+                        } else if (input.all { it.isDigit() } && input.length <= 2) {
+                            val minute = input.toIntOrNull() ?: 0
+                            if (minute <= 59) {
+                                startMinute = input
+                            }
+                        }
+                    },
                     label = { Text("Минута") },
                     modifier = Modifier.weight(1f),
-                    singleLine = true
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                 )
             }
 
@@ -117,17 +139,37 @@ fun AddTaskBottomSheet(
             ) {
                 OutlinedTextField(
                     value = endHour,
-                    onValueChange = { if (it.length <= 2) endHour = it },
+                    onValueChange = { input ->
+                        if (input.isEmpty()) {
+                            endHour = ""
+                        } else if (input.all { it.isDigit() } && input.length <= 2) {
+                            val hour = input.toIntOrNull() ?: 0
+                            if (hour <= 23) {
+                                endHour = input
+                            }
+                        }
+                    },
                     label = { Text("Час") },
                     modifier = Modifier.weight(1f),
-                    singleLine = true
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                 )
                 OutlinedTextField(
                     value = endMinute,
-                    onValueChange = { if (it.length <= 2) endMinute = it },
+                    onValueChange = { input ->
+                        if (input.isEmpty()) {
+                            endMinute = ""
+                        } else if (input.all { it.isDigit() } && input.length <= 2) {
+                            val minute = input.toIntOrNull() ?: 0
+                            if (minute <= 59) {
+                                endMinute = input
+                            }
+                        }
+                    },
                     label = { Text("Минута") },
                     modifier = Modifier.weight(1f),
-                    singleLine = true
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                 )
             }
 
