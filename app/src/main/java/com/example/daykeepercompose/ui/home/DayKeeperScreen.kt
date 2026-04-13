@@ -53,7 +53,7 @@ fun DayKeeperScreen(
                 title = {
                     Column {
                         Text(
-                            text = "Мой ежедневник",
+                            text = "Eжедневник",
                             color = MaterialTheme.colorScheme.onPrimaryContainer,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold

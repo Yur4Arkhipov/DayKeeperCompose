@@ -4,10 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -26,8 +25,10 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.example.daykeepercompose.ui.model.TaskUi
+import kotlin.math.roundToInt
 
 @Composable
 fun TimelineTable(
@@ -52,62 +53,58 @@ fun TimelineTable(
         Column {
             repeat(24) { hour ->
                 val hourHeightPx = 60f * pixelsPerMinute
+                val hourHeightDp = with(density) { hourHeightPx.toDp() }
 
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(with(density) { hourHeightPx.toDp() })
+                        .height(hourHeightDp)
                 ) {
-                    Row(
+                    HorizontalDivider(
+                        modifier = Modifier.align(Alignment.TopCenter),
+                        thickness = 1.dp,
+                        color = MaterialTheme.colorScheme.outlineVariant
+                    )
+                    Text(
+                        text = "%02d:00".format(hour),
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .height(24.dp)
-                            .align(Alignment.TopStart),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = "%02d:00".format(hour),
-                            modifier = Modifier
-                                .width(60.dp)
-                                .padding(end = 8.dp),
-                            textAlign = TextAlign.End,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            style = MaterialTheme.typography.bodySmall
-                        )
-
-                        HorizontalDivider(
-                            modifier = Modifier.weight(1f),
-                            thickness = 1.dp,
-                            color = MaterialTheme.colorScheme.outlineVariant
-                        )
-                    }
+                            .align(Alignment.CenterStart)
+                            .width(60.dp)
+                            .padding(end = 8.dp),
+                        textAlign = TextAlign.End,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
             }
+            HorizontalDivider(
+                modifier = Modifier.fillMaxWidth(),
+                thickness = 1.dp,
+                color = MaterialTheme.colorScheme.outlineVariant
+            )
         }
 
         tasks.forEach { task ->
-
-            val topOffsetDp = with(density) {
-                (task.startMinute * pixelsPerMinute).toDp()
-            }
-
-            val heightDp = with(density) {
-                (task.durationMinutes * pixelsPerMinute).toDp()
-            }
-
+            val topOffsetPx = task.startMinute * pixelsPerMinute
+            val heightPx = task.durationMinutes * pixelsPerMinute
             val minHeightToShowText = 40.dp
 
             Box(
                 modifier = Modifier
-                    .absoluteOffset(y = topOffsetDp)
+                    .offset {
+                        IntOffset(
+                            x = 0,
+                            y = topOffsetPx.roundToInt()
+                        )
+                    }
                     .padding(start = 64.dp, end = 8.dp)
                     .fillMaxWidth()
-                    .height(heightDp)
+                    .height(with(density) { heightPx.toDp() })
                     .clip(RoundedCornerShape(8.dp))
                     .background(Color.Blue)
                     .clickable { onTaskClick(task) }
             ) {
-                if (heightDp >= minHeightToShowText) {
+                if (with(density) { heightPx.toDp() } >= minHeightToShowText) {
                     Text(
                         text = task.name,
                         modifier = Modifier.padding(8.dp),
